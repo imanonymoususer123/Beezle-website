@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Soft Toy Paradise</title>
+    <link rel="icon" href="assets/logobanner.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE8E8;
+            font-family: 'Archivo', sans-serif;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 232, 232, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            z-index: 1001;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a.active {
+            color: #FFB84D;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 1001;
+            padding: 0;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
+
+        /* Blog Sections */
+        .blog-hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(to bottom, #FFE8E8, #fff);
+        }
+
+        .blog-hero h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .section-container {
+            padding: 4rem 0;
+            background: #fff;
+        }
+
+        .section-container:nth-child(even) {
+            background: #FFF5F5;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        .blog-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 15px;
+            background: #FFB84D;
+            color: white;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-title {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-excerpt {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 0.8rem;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 232, 232, 0.98);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                gap: 2rem;
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 16px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 90%;
+                max-width: 400px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-radius: 30px;
+                padding: 0.8rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+                justify-content: space-around;
+            }
+
+            .bottom-nav a {
+                color: #666;
+                text-decoration: none;
+                font-size: 0.8rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            .bottom-nav i {
+                font-size: 1.2rem;
+            }
+
+            .bottom-nav a.active {
+                color: #FFB84D;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding-bottom: 100px;
+            }
+        }
+
+         /* Footer */
+         footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul a:hover {
+            color: #FFB84D;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FFB84D;
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            padding-bottom: 5px;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #FFB84D;
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="assets/logo.svg" alt="Soft Toy Paradise Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="gallery.html">GALLERY</a></li>
+            <li><a href="blog.html" class="active">BLOG</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <section id="hero" class="blog-hero">
+        <h1>Our Blog</h1>
+        <p>Stories, tips, and insights from the world of soft toys</p>
+    </section>
+
+    <section id="latest" class="section-container">
+        <h2 class="section-title">Latest Posts</h2>
+        <div class="blog-grid">
+            <article class="blog-card">
+                <img src="assets/t1.webp" alt="Toy Care" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">Tips</span>
+                    <h2 class="blog-title">Essential Care Tips for Plush Toys</h2>
+                    <p class="blog-excerpt">Learn how to keep your soft toys clean and fluffy for years to come.</p>
+                    <div class="blog-meta">
+                        <span>5 min read</span>
+                        <span>Jan 5, 2025</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="assets/t2.webp" alt="Collecting Guide" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">Guide</span>
+                    <h2 class="blog-title">Starting Your Collection</h2>
+                    <p class="blog-excerpt">A beginner's guide to building a meaningful plush toy collection.</p>
+                    <div class="blog-meta">
+                        <span>7 min read</span>
+                        <span>Jan 3, 2025</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="assets/t4.webp" alt="Toy History" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">History</span>
+                    <h2 class="blog-title">Evolution of Plush Toys</h2>
+                    <p class="blog-excerpt">Discover how soft toys have changed through the decades.</p>
+                    <div class="blog-meta">
+                        <span>6 min read</span>
+                        <span>Dec 28, 2023</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <section id="featured" class="section-container">
+        <h2 class="section-title">Featured Stories</h2>
+        <div class="blog-grid">
+            <article class="blog-card">
+                <img src="assets/t5.webp" alt="Handmade Toys" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">Crafts</span>
+                    <h2 class="blog-title">The Art of Handmade Plush Toys</h2>
+                    <p class="blog-excerpt">Exploring the beautiful world of artisanal toy making.</p>
+                    <div class="blog-meta">
+                        <span>8 min read</span>
+                        <span>Dec 25, 2023</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="assets/t6.webp" alt="Vintage Collection" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">Vintage</span>
+                    <h2 class="blog-title">Vintage Teddy Bears</h2>
+                    <p class="blog-excerpt">A collector's guide to finding and preserving vintage bears.</p>
+                    <div class="blog-meta">
+                        <span>10 min read</span>
+                        <span>Dec 20, 2023</span>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card">
+                <img src="assets/t7.webp" alt="Custom Toys" class="blog-image">
+                <div class="blog-content">
+                    <span class="blog-tag">Custom</span>
+                    <h2 class="blog-title">Custom Plush Creation</h2>
+                    <p class="blog-excerpt">The process of designing and creating custom plush toys.</p>
+                    <div class="blog-meta">
+                        <span>9 min read</span>
+                        <span>Dec 15, 2023</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="gallery.html">Products</a></li>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/share/_y6IYI4S6" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Soft Toy Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="bottom-nav">
+        <a href="#hero" class="active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#latest">
+            <i class="fas fa-clock"></i>
+            <span>Latest</span>
+        </a>
+        <a href="#featured">
+            <i class="fas fa-star"></i>
+            <span>Featured</span>
+        </a>
+        <a href="contact.html">
+            <i class="fas fa-message"></i>
+            <span>Contact</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            const bottomNavLinks = document.querySelectorAll('.bottom-nav a');
+            const sections = document.querySelectorAll('section');
+        
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            });
+        
+            // Close mobile menu when clicking links
+            navLinks.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            });
+        
+            // Bottom navigation scroll handling
+            bottomNavLinks.forEach(link => {
+                if (link.getAttribute('href').startsWith('#')) {
+                    link.addEventListener('click', e => {
+                        e.preventDefault();
+                        const targetId = link.getAttribute('href');
+                        const targetSection = document.querySelector(targetId);
+                        
+                        if (targetSection) {
+                            targetSection.scrollIntoView({ behavior: 'smooth' });
+                            bottomNavLinks.forEach(l => l.classList.remove('active'));
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        
+            // Update active section on scroll
+            function updateActiveSection() {
+                const scrollPosition = window.scrollY + window.innerHeight / 3;
+        
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    const sectionId = section.getAttribute('id');
+        
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        bottomNavLinks.forEach(link => {
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                bottomNavLinks.forEach(l => l.classList.remove('active'));
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+        
+                // Add active class to Home when at the top
+                if (window.scrollY < 100) {
+                    bottomNavLinks.forEach(link => link.classList.remove('active'));
+                    document.querySelector('.bottom-nav a[href="#hero"]').classList.add('active');
+                }
+            }
+        
+            // Listen for scroll events
+            window.addEventListener('scroll', updateActiveSection);
+        
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

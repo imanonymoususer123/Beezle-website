@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Soft Toy Paradise</title>
+    <link rel="icon" href="assets/logobanner.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE8E8;
+            font-family: 'Archivo', sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: linear-gradient(rgba(252, 165, 169, 0.1), rgba(252, 165, 169, 0.2));
+            padding: 120px 0 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .floating-toys {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .floating-toy {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .timeline-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .timeline-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: #fca5a9;
+            opacity: 1; /* Ensure the timeline line is visible */
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1; /* Make sure items are visible by default */
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: 55%;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #fca5a9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1;
+        }
+
+        .timeline-date {
+            font-size: 0.9rem;
+            color: #fca5a9;
+            margin-bottom: 10px;
+        }
+
+        .timeline-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .stats-section {
+            background: #FFF5F5;
+            padding: 80px 0;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            color: #fca5a9;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .mission-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .mission-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .mission-card {
+            padding: 40px;
+            background: #FFF5F5;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .mission-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .mission-icon {
+            font-size: 2.5rem;
+            color: #fca5a9;
+            margin-bottom: 20px;
+        }
+
+        .mission-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .mission-text {
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin: 0 0 0 60px !important;
+            }
+
+            .timeline-icon {
+                left: 30px;
+            }
+
+            .mission-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-content {
+                padding: 20px;
+            }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(rgba(252, 165, 169, 0.1), rgba(252, 165, 169, 0.02));
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(255, 184, 77, 0.1);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .logo {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            margin-left: auto;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #fca5a9;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        /* Animated Hamburger Button */
+        .hamburger {
+            width: 30px;
+            height: 30px;
+            position: relative;
+            cursor: pointer;
+            z-index: 1000;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            position: absolute;
+            left: 0;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger span:nth-child(1) {
+            top: 8px;
+        }
+
+        .hamburger span:nth-child(2) {
+            top: 18px;
+        }
+
+        .hamburger span:nth-child(3) {
+            top: 28px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 14px;
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            top: 14px;
+        }
+
+        /* Add animation delays for menu items */
+        .side-nav-content a:nth-child(1) { transition-delay: 0.1s; }
+        .side-nav-content a:nth-child(2) { transition-delay: 0.2s; }
+        .side-nav-content a:nth-child(3) { transition-delay: 0.3s; }
+        .side-nav-content a:nth-child(4) { transition-delay: 0.4s; }
+
+        @media (min-width: 769px) {
+            .side-nav {
+                display: none;
+            }
+            .hamburger {
+                display: none;
+            }
+        }
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .mobile-nav {
+        display: block;
+    }
+}
+
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.52);
+    height: 56px;
+    z-index: 1000;
+    border-radius: 32px;
+    padding: 0 10px;
+}
+
+.mobile-nav.active {
+    bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: block;
+    }
+}
+
+
+.mobile-nav-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100%;
+    align-items: center;
+}
+
+.mobile-nav-links a {
+    color: #666;
+    text-decoration: none;
+    text-align: center;
+    font-size: 0.75rem;
+    height: 42px; /* Slightly smaller than navbar height */
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 24px; /* Matching the curved style of navbar */
+}
+
+.mobile-nav-links i {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+
+.mobile-nav-links a.active {
+    color: #fca5a9;
+}
+
+.mobile-nav-links a.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    z-index: -1;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+       
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .mobile-nav {
+                display: block;
+            }
+
+            .hero-section {
+                padding-top: 90px;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-nav {
+                display: none;
+            }
+        }
+
+        /* Mobile Navigation Styles */
+        .side-nav {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 999;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .side-nav.active {
+            right: 0;
+        }
+        
+        .side-nav-content {
+            padding: 0;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .side-nav-content a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.5rem;
+            padding: 20px;
+            display: block;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .side-nav.active .side-nav-content a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .side-nav-content a:hover,
+        .side-nav-content a.active {
+            color: #fca5a9;
+            background: #fef2f3;
+        }
+
+        .founder-section {
+            padding: 6rem 2rem;
+            background-color: #fff;
+        }
+    
+        .founder-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    
+        .founder-content {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+    
+        .founder-image {
+            flex: 0 0 40%;
+            position: relative;
+        }
+    
+        .founder-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    
+        .founder-text {
+            flex: 1;
+        }
+    
+        .founder-text h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+    
+        .founder-text h3 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #FFB84D;
+            margin-bottom: 1.5rem;
+        }
+    
+        .founder-text p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+    
+        .founder-achievements {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+    
+        .achievement {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    
+        .achievement-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #FFB84D;
+        }
+    
+        .achievement-text {
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+        }
+    
+        @media (max-width: 968px) {
+            .founder-content {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+    
+            .founder-image {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+    
+            .founder-achievements {
+                justify-content: center;
+            }
+        }
+    
+        @media (max-width: 576px) {
+            .founder-section {
+                padding: 4rem 1rem;
+            }
+    
+            .founder-text h2 {
+                font-size: 2rem;
+            }
+    
+            .founder-text h3 {
+                font-size: 1.5rem;
+            }
+    
+            .founder-text p {
+                font-size: 1rem;
+            }
+    
+            .founder-achievements {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul a:hover {
+            color: #FFB84D;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FFB84D;
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo-container">
+                <img src="assets/logo.svg" alt="Logo" class="logo">
+            </a>
+            <div class="nav-links">
+                <a href="index.html" >HOME</a>
+                <a href="#timeline" class="active">ABOUT US</a>
+                <a href="gallery.html">GALLERY</a>
+                <a href="blog.html">BLOG</a>
+                <a href="contact.html">CONTACT US</a>
+            </div>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        
+        </div>
+    </nav>
+
+    <!-- Bottom navigation for mobile -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-links">
+            <a href="#hero" class="active">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="#timeline">
+                <i class="fas fa-clock"></i>
+                <span>Timeline</span>
+            </a>
+            <a href="#stats">
+                <i class="fas fa-chart-bar"></i>
+                <span>Stats</span>
+            </a>
+            <a href="#mission">
+                <i class="fas fa-bullseye"></i>
+                <span>Mission</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="side-nav">
+        <div class="side-nav-content">
+            <a href="index.html">Home</a>
+            <a href="#timeline" class="active">About Us</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="blog.html">Blog</a>
+            <a href="contact.html">Contact Us</a>
+        </div>
+    </div>
+    <section id="hero" class="hero-section">
+        <div class="floating-toys">
+            <span class="floating-toy" style="top: 20%; left: 10%;">🧸</span>
+            <span class="floating-toy" style="top: 30%; right: 15%;">🐨</span>
+            <span class="floating-toy" style="top: 70%; left: 20%;">🦒</span>
+            <span class="floating-toy" style="top: 60%; right: 25%;">🦊</span>
+            <span class="floating-toy" style="top: 40%; left: 80%;">🐼</span>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">Our Story of Joy and Innovation</h1>
+            <p class="hero-subtitle">Founded by Pushpalatha Suresh, Soft Toy Paradise has been bringing smiles to children's faces and creating opportunities for artisans since 1996.</p>
+        </div>
+    </section>
+    <!-- Add founder section before footer -->
+    <section class="founder-section">
+        <div class="founder-container">
+            <div class="founder-content">
+                <div class="founder-image">
+                    <img src="assets/founder.jpg" alt="Pushpalatha Suresh - Founder">
+                </div>
+                <div class="founder-text">
+                    <h2>Our Founder</h2>
+                    <h3>Pushpalatha Suresh</h3>
+                    <p>Born and raised in Bangalore, Pushpalatha Suresh embarked on her entrepreneurial journey at age 20, starting with just ₹10,000 gifted by her mother. Despite societal skepticism towards women entrepreneurs 27 years ago, she persevered to build an internationally recognized soft toy manufacturing business.</p>
+                    <p>Through her brands Beazle and TouchMe, she provides high-quality, child-friendly toys certified by the Bureau of Indian Standards. As a member of the Peenya Industries Association and Karnataka Small Scale Industries Association, she advocates for women entrepreneurs and empowers rural communities through skill development.</p>
+                    <div class="founder-achievements">
+                        <div class="achievement">
+                            <span class="achievement-number">100+</span>
+                            <span class="achievement-text">Employees</span>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-number">27+</span>
+                            <span class="achievement-text">Years of Excellence</span>
+                        </div>
+                        <div class="achievement">
+                            <span class="achievement-number">2</span>
+                            <span class="achievement-text">Global Brands</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timeline" class="timeline-section">
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">1996</div>
+                        <h3 class="timeline-title">The Beginning</h3>
+                        <p>Started with ₹10,000 and a dream to create quality toys for children, Pushpalatha established her first manufacturing unit with family support.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2000</div>
+                        <h3 class="timeline-title">Growing Together</h3>
+                        <p>Expanded from 12 to over 100 employees, creating employment opportunities particularly for women in the community.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">2010</div>
+                        <h3 class="timeline-title">International Recognition</h3>
+                        <p>Launched two successful brands: Beazle for international markets and TouchMe for the Indian market.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">Present</div>
+                        <h3 class="timeline-title">Community Impact</h3>
+                        <p>Focusing on empowering rural communities and artisans through skill development and sustainable employment opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="stats" class="stats-section">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">27+</div>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Skilled Artisans</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1000+</div>
+                <div class="stat-label">Happy Customers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Unique Designs</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="mission" class="mission-section">
+        <div class="mission-container">
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h3 class="mission-title">Our Mission</h3>
+                <p class="mission-text">To create high-quality, safe, and affordable toys while empowering local communities and preserving traditional craftsmanship.</p>
+            </div>
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <h3 class="mission-title">Quality Promise</h3>
+                <p class="mission-text">Every toy is crafted with love and care, meeting the highest safety standards and certified by the Bureau of Indian Standards.</p>
+            </div>
+            <div class="mission-card">
+                <div class="mission-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="mission-title">Community Impact</h3>
+                <p class="mission-text">Empowering women and artisans through skill development and sustainable employment opportunities.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="gallery.html">Products</a></li>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/share/_y6IYI4S6" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Soft Toy Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all features
+    setupNavigation();
+    setupTimelineAnimation();
+    setupStatsAnimation();
+    setupFloatingToys();
+    setupMissionCards();
+    setupScrollHandling();
+    setupResizeHandling();
+
+    // Full-screen Navigation Setup
+    function setupNavigation() {
+        const hamburger = document.querySelector('.hamburger');
+        const sideNav = document.querySelector('.side-nav');
+        const sideNavLinks = document.querySelectorAll('.side-nav-content a');
+        const bottomNavLinks = document.querySelectorAll('.mobile-nav-links a');
+        const sections = document.querySelectorAll('section');
+
+        // Initial setup - ensure only About is active in side nav
+        sideNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#timeline') {
+                link.classList.add('active');
+            }
+        });
+
+        // Toggle full-screen navigation
+        function toggleNav(event) {
+            if (event) event.preventDefault();
+            
+            hamburger.classList.toggle('active');
+            sideNav.classList.toggle('active');
+            
+            // Toggle body scroll
+            document.body.style.overflow = sideNav.classList.contains('active') ? 'hidden' : '';
+
+            // Keep About link active when menu opens/closes
+            if (sideNav.classList.contains('active')) {
+                sideNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#timeline') {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
+
+        // Setup hamburger click
+        hamburger?.addEventListener('click', toggleNav);
+
+        // Handle navigation link clicks
+        sideNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                
+                // For same-page links
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        setTimeout(() => {
+                            targetSection.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }, 350);
+                    }
+                }
+
+                // Always reset active states
+                sideNavLinks.forEach(l => l.classList.remove('active'));
+                if (href === '#timeline') {
+                    link.classList.add('active');
+                }
+
+                // Close menu with delay
+                setTimeout(() => {
+                    toggleNav();
+                }, 300);
+            });
+        });
+
+        // Handle escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && sideNav.classList.contains('active')) {
+                toggleNav();
+            }
+        });
+
+        // Bottom navigation setup
+        setupBottomNavigation(bottomNavLinks, sections);
+    }
+
+    // Bottom navigation handler
+    function setupBottomNavigation(bottomNavLinks, sections) {
+        bottomNavLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    // Update active class for bottom nav
+                    bottomNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Smooth scroll
+                    targetSection.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Section observer for bottom nav
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    bottomNavLinks.forEach(link => {
+                        const linkHref = link.getAttribute('href');
+                        if (linkHref === `#${currentId}`) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+    }
+
+    // Timeline Animation
+    function setupTimelineAnimation() {
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        timelineItems.forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.6s ease-out';
+            timelineObserver.observe(item);
+        });
+    }
+
+    // Stats Counter Animation
+    function setupStatsAnimation() {
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const currentValue = Math.floor(progress * (end - start) + start);
+                element.textContent = currentValue + '+';
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    const finalValue = parseInt(entry.target.textContent);
+                    animateValue(entry.target, 0, finalValue, 2000);
+                }
+            });
+        }, {
+            threshold: 0.5
+        });
+
+        statNumbers.forEach(stat => statsObserver.observe(stat));
+    }
+
+    // Floating Toys Animation
+    function setupFloatingToys() {
+        const floatingToys = document.querySelectorAll('.floating-toy');
+        floatingToys.forEach((toy, index) => {
+            toy.style.animationDelay = `${index * 0.5}s`;
+        });
+    }
+
+    // Mission Cards Animation
+    function setupMissionCards() {
+        const missionCards = document.querySelectorAll('.mission-card');
+        
+        const missionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        });
+
+        missionCards.forEach(card => {
+            // Initial state
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            
+            // Hover effects
+            card.addEventListener('mouseenter', () => {
+                if (card.classList.contains('visible')) {
+                    card.style.transform = 'translateY(-10px)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (card.classList.contains('visible')) {
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+
+            missionObserver.observe(card);
+        });
+    }
+
+    // Scroll Handling
+    function setupScrollHandling() {
+        let lastScrollTop = 0;
+        const mobileNav = document.querySelector('.mobile-nav');
+        const navbar = document.querySelector('.navbar');
+        const scrollThreshold = 50;
+
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Navbar background on scroll
+            if (scrollTop > scrollThreshold) {
+                navbar?.classList.add('scrolled');
+            } else {
+                navbar?.classList.remove('scrolled');
+            }
+
+            // Mobile nav visibility
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                mobileNav?.classList.add('nav-hidden');
+            } else {
+                mobileNav?.classList.remove('nav-hidden');
+            }
+
+            lastScrollTop = scrollTop;
+        });
+    }
+
+    // Window Resize Handling
+    function setupResizeHandling() {
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                const sideNav = document.querySelector('.side-nav');
+                const hamburger = document.querySelector('.hamburger');
+                
+                // Reset navigation state on larger screens
+                if (window.innerWidth > 768) {
+                    sideNav?.classList.remove('active');
+                    hamburger?.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }, 250);
+        });
+    }
+});
+    </script>
+</body>
+</html>

@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Toy Paradise</title>
+    <link rel="icon" href="assets/logobanner.svg" type="image/svg+xml">
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* All previous styles remain exactly the same */
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE8E8;
+            font-family: 'Archivo', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 232, 232, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            z-index: 1001;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #FFB84D;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a.active::after {
+            width: 100%;
+            background-color: #FFB84D;
+        }
+
+        .nav-links a:hover {
+            color: #FFB84D;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #000;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .search-icon::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 2px;
+            background: #000;
+            bottom: -4px;
+            right: -4px;
+            transform: rotate(45deg);
+        }
+
+        /* Add new styles for search functionality */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .search-icon {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #333;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: transparent;
+        }
+
+        .search-icon::after {
+            content: '';
+            position: absolute;
+            width: 7px;
+            height: 1.5px;
+            background: #333;
+            bottom: -4px;
+            right: -4px;
+            transform: rotate(45deg);
+        }
+
+        .search-input {
+            position: absolute;
+            right: -10px;
+            padding: 8px 40px 8px 16px;
+            border: 1.5px solid #FFB84D;
+            border-radius: 20px;
+            font-size: 14px;
+            background: white;
+            width: 40px;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Archivo', sans-serif;
+            box-shadow: 0 2px 10px rgba(255, 184, 77, 0.1);
+        }
+
+        .search-input::placeholder {
+            color: #999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .search-input.active {
+            width: 200px;
+            opacity: 1;
+            padding-right: 35px;
+        }
+
+        .search-input.active::placeholder {
+            opacity: 1;
+        }
+
+        .search-icon.active {
+            position: absolute;
+            right: 10px;
+            border-color: #FFB84D;
+        }
+
+        .search-icon.active::after {
+            background: #FFB84D;
+        }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: -10px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            opacity: 0;
+            transform: translateY(-10px);
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1.5px solid #FFE8E8;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .search-results.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .search-result-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            color: #333;
+            border-bottom: 1px solid #FFE8E8;
+        }
+
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .search-result-item:hover {
+            background: #FFF5F5;
+            color: #FFB84D;
+        }
+
+        /* Hide hamburger menu on desktop */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Mobile menu active state */
+        .menu-toggle.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+            background-color: #333;
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+            background-color: #333;
+        }
+
+        /* Replace the mobile media query section with this updated code */
+
+        @media (max-width: 768px) {
+
+            .main-container,
+            .categories,
+            .featured-products,
+            .newsletter {
+                padding-bottom: 20px;
+            }
+        
+            footer {
+                padding-bottom: 84px;
+            }
+            nav {
+                padding: 1rem;
+                position: fixed;
+                width: 100%;
+                background: rgba(255, 232, 232, 0.98);
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+
+            .menu-toggle {
+                display: flex;
+                position: relative;
+                z-index: 1002;
+            }
+
+            .nav-links {
+                display: flex !important;
+                /* Force display flex */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(255, 232, 232, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1001;
+                padding-top: 80px;
+                gap: 2rem;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease-in-out;
+                width: 100%;
+                text-align: center;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem;
+                display: block;
+                color: #333;
+            }
+
+            /* Add animation for nav links */
+            @keyframes navLinkFade {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* Ensure menu toggle is visible and working */
+            .menu-toggle span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background-color: #333;
+                border-radius: 2px;
+                transition: all 0.3s ease-in-out;
+            }
+
+            .menu-toggle.active span:first-child {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:last-child {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Search container adjustments */
+            .search-container {
+                margin-right: 1rem;
+            }
+
+            .search-input.active {
+                width: 160px;
+            }
+        }
+
+        /* Delay each nav item animation */
+        .nav-links li:nth-child(1) {
+            transition-delay: 0.1s;
+        }
+
+        .nav-links li:nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .nav-links li:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .nav-links li:nth-child(4) {
+            transition-delay: 0.4s;
+        }
+
+
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            right: 30px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-result-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+
+        .search-result-item:hover {
+            background: #f5f5f5;
+        }
+
+        /* Updated Main Container with Parallax */
+        .main-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            perspective: 10px;
+            transform-style: preserve-3d;
+            padding-top: 80px;
+        }
+
+        .parallax-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heading-container {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            transform: translateZ(0);
+            will-change: transform;
+        }
+
+        .heading-line {
+            font-size: 16vw;
+            font-weight: 300;
+            line-height: 0.85;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            text-align: center;
+            display: block;
+        }
+
+        .heading-line.second {
+            margin-top: -1vw;
+        }
+
+        .o-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .hat-soft,
+        .hat-toy {
+            position: absolute;
+            width: 10vw;
+            height: auto;
+            z-index: 2;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            rotate: -2deg;
+        }
+
+        .teddy-container {
+            position: absolute;
+            z-index: 1;
+            width: 50vw;
+            max-width: none;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%) translateZ(-5px) scale(1.5);
+            will-change: transform;
+        }
+
+        .teddy-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+    .main-container {
+        height: 100vh;
+        padding-top: 60px;
+        overflow: hidden;
+        perspective: 10px;
+        position: relative;
+    }
+
+    .parallax-wrapper {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Bigger text size and adjusted position */
+    .heading-container {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        transform: translateY(-25vh); /* Moved up more */
+    }
+
+    .heading-line {
+        font-size: 22vw; /* Increased from 16vw */
+        font-weight: 300;
+        line-height: 0.85;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+    }
+
+    .heading-line.second {
+        font-size: 18vw; /* Increased proportionally */
+        margin-top: -1vw;
+    }
+
+    /* O letter container */
+    .o-container {
+        position: relative;
+        display: inline-block;
+        margin: 0 -0.1em;
+    }
+
+    /* Hat positioning inside O */
+    .hat-soft,
+    .hat-toy {
+        position: absolute;
+        width: 10vw; /* Slightly bigger hats */
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-2deg);
+        z-index: 2;
+    }
+
+    /* Curved background moved up */
+    .main-container::after {
+        content: '';
+        position: absolute;
+        bottom: -20vh;
+        left: -10%;
+        right: -10%;
+        height: 75vh; /* Taller curve */
+        background: #fecdcf;
+        border-radius: 45% 50% 0 0;
+        z-index: 0;
+    }
+
+    /* Larger teddy positioning inside curve */
+    .teddy-container {
+        position: absolute;
+        width: 275vw; /* Even bigger */
+        max-width: 600px; /* Increased max-width */
+        top: 65%; /* Adjusted to sit inside curve */
+        left: 50%;
+        transform: translate(-50%, -30%) translateZ(-5px) scale(1.5);
+        z-index: 1;
+    }
+
+    .teddy-image {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+/* Small phone adjustments */
+@media (max-width: 375px) {
+    .heading-line {
+        font-size: 20vw;
+    }
+
+    .heading-line.second {
+        font-size: 16vw;
+    }
+
+    .teddy-container {
+        width: 100vw;
+        top: 60%;
+    }
+
+    .main-container::after {
+        height: 60vh;
+        bottom: -15vh;
+    }
+}
+
+/* Landscape mode */
+@media (max-width: 768px) and (orientation: landscape) {
+    .heading-container {
+        transform: translateY(-10vh);
+    }
+
+    .heading-line {
+        font-size: 16vw;
+    }
+
+    .heading-line.second {
+        font-size: 14vw;
+    }
+
+    .hat-soft,
+    .hat-toy {
+        width: 8vw;
+    }
+
+    .teddy-container {
+        width: 70vh;
+        top: 70%;
+    }
+
+    .main-container::after {
+        height: 80vh;
+        bottom: -30vh;
+    }
+}
+
+
+        /* Categories Section */
+        .categories {
+            padding: 6rem 0;
+            background-color: #fff;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-heading {
+            font-size: 2.5rem;
+            font-weight: 300;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .category-card h3 {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-card p {
+            position: absolute;
+            bottom: 1rem;
+            left: 2rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: 300;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Featured Products */
+        .featured-products {
+            padding: 6rem 0;
+            background-color: #FFF5F5;
+            position: relative;
+            z-index: 1;
+        }
+
+        .products-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            position: relative;
+            height: 300px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .quick-view {
+            background: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            transition: all 0.3s ease;
+        }
+
+        .quick-view:hover {
+            background: #FFB84D;
+            color: white;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .price {
+            color: #FFB84D;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart-btn {
+            background: #FFB84D;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #FFA726;
+            transform: scale(1.05);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            padding: 6rem 0;
+            background-color: white;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .newsletter-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .newsletter h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #FFB84D;
+            border-radius: 30px;
+            font-family: 'Archivo', sans-serif;
+        }
+
+        .newsletter-form button {
+            background: #FFB84D;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .newsletter-form button:hover {
+            background: #FFA726;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul a:hover {
+            color: #FFB84D;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FFB84D;
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Cart Popup */
+        .cart-popup {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .cart-popup.show {
+            transform: translateX(0);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(255, 232, 232, 0.98);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 2rem;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+            }
+
+            .nav-links li {
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: all 0.3s ease-in-out;
+            }
+
+            .nav-links.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem;
+                display: block;
+            }
+
+            /* Adjusted hamburger animation */
+            .menu-toggle.active span:first-child {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:last-child {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Search container adjustments */
+            .search-container {
+                margin-right: 0;
+            }
+
+            .search-input.active {
+                width: 160px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .heading-line {
+                font-size: 18vw;
+            }
+
+            .section-heading {
+                font-size: 2rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .category-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .category-card p {
+                font-size: 0.9rem;
+            }
+
+            .product-card {
+                margin: 0 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2.5rem;
+            /* Increased from 1.5rem */
+            z-index: 1001;
+        }
+
+        .logo img {
+            height: 60px;
+            /* Increased from default size */
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        /* Add responsive adjustment for mobile */
+        @media (max-width: 768px) {
+            .logo img {
+                height: 50px;
+                /* Slightly smaller on mobile */
+            }
+        }
+
+        /* Bottom Navigation Styles */
+.bottom-nav {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    body::after {
+        display: none !important; /* Completely remove the gradient overlay */
+    }
+    .bottom-nav {
+        display: flex !important; /* Show only on mobile */
+        position: fixed;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 400px;
+        justify-content: space-around;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.52);
+        height: 56px;
+        z-index: 1000;
+        border-radius: 32px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 0 10px;
+    }
+
+    .bottom-nav-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #666;
+        font-size: 10px;
+        width: 25%;
+        height: 100%;
+        transition: all 0.2s ease;
+    }
+
+    .bottom-nav-item i {
+        font-size: 20px;
+        margin-bottom: 3px;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .bottom-nav-item span {
+        margin-top: 1px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        opacity: 0.8;
+    }
+
+    .bottom-nav-item.active {
+        color: #fca5a9;
+    }
+
+    .bottom-nav-item.active i {
+        color: #fca5a9;
+        transform: scale(1.1);
+    }
+
+    .bottom-nav-item.active span {
+        opacity: 1;
+    }
+
+    /* Add subtle gradient background to body */
+    
+
+    /* Adjust main content spacing */
+    .main-container,
+    .categories,
+    .featured-products,
+    .newsletter {
+        margin-bottom: 80px;
+    }
+
+    footer {
+        margin-bottom: calc(80px + env(safe-area-inset-bottom, 16px));
+    }
+}
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div  class="logo">
+            <img src="assets/logo.svg" alt="Soft Toy Paradise Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="gallery.html">GALLERY</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="search-container">
+                <div class="search-icon"></div>
+                <input type="text" class="search-input" placeholder="Search...">
+                <div class="search-results"></div>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Keep the bottom navigation as is, but with updated styles -->
+<div class="bottom-nav">
+    <a href="#home" class="bottom-nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a href="#about" class="bottom-nav-item">
+        <i class="fas fa-compass"></i>
+        <span>Collections</span>
+    </a>
+    <a href="#shop" class="bottom-nav-item">
+        <i class="fa-solid fa-arrow-trend-up"></i>
+        <span>Trending</span>
+    </a>
+    <a href="#contact" class="bottom-nav-item">
+        <i class="fas fa-message"></i>
+        <span>Contact</span>
+    </a>
+</div>
+
+    <div id="home" class="main-container">
+        <div class="parallax-wrapper">
+            <div class="heading-container">
+                <div class="heading-line">
+                    S<span class="o-container">O<img src="assets/cap.png" alt="Brown Hat" class="hat-soft"></span>FT
+                    T<span class="o-container">O<img src="assets/cap2.png" alt="Pink Hat" class="hat-toy"></span>Y
+                </div>
+                <div class="heading-line second">
+                    PARADISE
+                </div>
+            </div>
+
+            <div class="teddy-container">
+                <img src="assets/taddy.png" alt="Pink Teddy Bear" class="teddy-image">
+            </div>
+        </div>
+    </div>
+
+    <section id="about" class="categories">
+        <div class="category-container">
+            <h2 class="section-heading">Our Collections</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="assets/teddy2.webp" alt="Teddy Bears">
+                    <h3>Teddy Bears</h3>
+                    <p>Classic companions for all ages</p>
+                </div>
+                <div class="category-card">
+                    <img src="assets/animals 2.webp" alt="Wild Animals">
+                    <h3>Wild Animals</h3>
+                    <p>Safari and jungle friends</p>
+                </div>
+                <div class="category-card">
+                    <img src="assets/horsh.png" alt="Fantasy">
+                    <h3>Fantasy</h3>
+                    <p>Magical creatures and unicorns</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="shop" class="featured-products">
+        <div class="products-container">
+            <h2 class="section-heading">Trending Now</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="assets/product1.webp" alt="Cozy Bear">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Cozy Bear</h3>
+                        <!-- <p class="price">₹899</p> -->
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="assets/product2.webp" alt="Sleepy Panda">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Sleepy Panda</h3>
+                        <!-- <p class="price">₹1,299</p> -->
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="assets/product3.webp" alt="Magic Unicorn">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Magic Unicorn</h3>
+                        <!-- <p class="price">₹1,499</p> -->
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="newsletter">
+        <div class="newsletter-container">
+            <h2>Join Our Cuddly Club</h2>
+            <p>Get 10% off your first order and stay updated with our latest arrivals!</p>
+            <form class="newsletter-form" action="https://formsubmit.co/info@beezleluxetoys.com" method="POST">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <input type="hidden" name="_subject" value="New Newsletter Subscription!">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_autoresponse" value="Thank you for subscribing to our newsletter!">
+                <button type="submit">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="gallery.html">Products</a></li>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/share/_y6IYI4S6" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Soft Toy Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-popup" id="cartPopup">
+        Item added to cart! 🧸
+    </div>
+
+    <!-- Replace the existing bottom navigation HTML with this -->
+<div class="bottom-nav">
+    <a href="#home" class="bottom-nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+    </a>
+    <a href="#about" class="bottom-nav-item">
+        <i class="fas fa-compass"></i>
+        <span>Collections</span>
+    </a>
+    <a href="#shop" class="bottom-nav-item">
+        <i class="fa-solid fa-arrow-trend-up"></i>
+        <span>Trending</span>
+    </a>
+    <a href="#contact" class="bottom-nav-item">
+        <i class="fas fa-message"></i>
+        <span>Contact</span>
+    </a>
+</div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Cache DOM elements
+            const elements = {
+                // Main navigation elements
+                menuToggle: document.querySelector('.menu-toggle'),
+                navLinksContainer: document.querySelector('.nav-links'),
+                navLinks: document.querySelectorAll('.nav-links a'),
+                
+                // Bottom navigation elements
+                bottomNav: document.querySelector('.bottom-nav'),
+                bottomNavLinks: document.querySelectorAll('.bottom-nav-item'),
+                
+                // Search elements
+                searchIcon: document.querySelector('.search-icon'),
+                searchInput: document.querySelector('.search-input'),
+                searchResults: document.querySelector('.search-results'),
+                
+                // Sections for scroll tracking
+                sections: document.querySelectorAll('section, .main-container'),
+                
+                // Parallax elements
+                teddyContainer: document.querySelector('.teddy-container'),
+                headingContainer: document.querySelector('.heading-container')
+            };
+        
+            // State management
+            let state = {
+                isMenuOpen: false,
+                isSearchActive: false
+            };
+        
+            // Navigation Functions
+            const navigationHandlers = {
+                toggleMobileMenu: (e) => {
+                    if (e) e.stopPropagation();
+                    
+                    state.isMenuOpen = !state.isMenuOpen;
+                    elements.menuToggle.classList.toggle('active');
+                    elements.navLinksContainer.classList.toggle('active');
+                    document.body.style.overflow = state.isMenuOpen ? 'hidden' : '';
+        
+                    // Animate nav links
+                    const links = document.querySelectorAll('.nav-links li');
+                    links.forEach((link, index) => {
+                        if (link.style.animation) {
+                            link.style.animation = '';
+                        } else {
+                            link.style.animation = `navLinkFade 0.5s ease forwards ${index / 7 + 0.3}s`;
+                        }
+                    });
+                },
+
+                
+        
+                closeMobileMenu: () => {
+                    if (state.isMenuOpen) {
+                        state.isMenuOpen = false;
+                        elements.menuToggle.classList.remove('active');
+                        elements.navLinksContainer.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                },
+        
+                handleNavClick: (e, link) => {
+                    e.preventDefault();
+        
+                    // Remove active class from all links in both navigations
+                    elements.navLinks.forEach(l => l.classList.remove('active'));
+                    elements.bottomNavLinks.forEach(l => l.classList.remove('active'));
+        
+                    // Add active class to clicked link and its corresponding bottom nav link
+                    const href = link.getAttribute('href');
+                    link.classList.add('active');
+                    document.querySelector(`.bottom-nav-item[href="${href}"]`)?.classList.add('active');
+        
+                    // Close mobile menu if open
+                    navigationHandlers.closeMobileMenu();
+        
+                    // Smooth scroll to section
+                    const targetSection = document.querySelector(href);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                },
+        
+                updateActiveLinks: () => {
+                    const scrollPosition = window.scrollY + window.innerHeight / 3;
+        
+                    elements.sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        const sectionHeight = section.offsetHeight;
+                        const sectionId = section.getAttribute('id');
+        
+                        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                            // Update top navigation
+                            elements.navLinks.forEach(link => {
+                                link.classList.remove('active');
+                                if (link.getAttribute('href') === `#${sectionId}`) {
+                                    link.classList.add('active');
+                                }
+                            });
+        
+                            // Update bottom navigation
+                            elements.bottomNavLinks.forEach(link => {
+                                link.addEventListener('click', (e) => navigationHandlers.handleNavClick(e, link));
+                            });
+                        }
+                    });
+        
+                    // Handle home section specially when at the top
+                    if (window.scrollY < 100) {
+                        document.querySelector('a[href="#home"]')?.classList.add('active');
+                        document.querySelector('.bottom-nav-item[href="#home"]')?.classList.add('active');
+                    }
+                }
+            };
+        
+            // Search Functionality
+            const searchHandlers = {
+                searchableContent: [
+                    { title: 'Home', section: 'home' },
+                    { title: 'About', section: 'about' },
+                    { title: 'Shop', section: 'shop' },
+                    { title: 'Contact', section: 'contact' },
+                    { title: 'Teddy Bears', section: 'shop' },
+                    { title: 'Wild Animals', section: 'shop' },
+                    { title: 'Fantasy', section: 'shop' },
+                    { title: 'Cozy Bear', section: 'shop' },
+                    { title: 'Sleepy Panda', section: 'shop' },
+                    { title: 'Magic Unicorn', section: 'shop' }
+                ],
+        
+                toggleSearch: (e) => {
+                    if (e) e.stopPropagation();
+                    
+                    elements.searchIcon.classList.toggle('active');
+                    elements.searchInput.classList.toggle('active');
+                    
+                    if (elements.searchInput.classList.contains('active')) {
+                        setTimeout(() => elements.searchInput.focus(), 100);
+                    } else {
+                        elements.searchResults.classList.remove('active');
+                        elements.searchInput.value = '';
+                    }
+                },
+        
+                handleSearch: (e) => {
+                    const searchTerm = e.target.value.toLowerCase();
+                    
+                    if (searchTerm.length < 1) {
+                        elements.searchResults.classList.remove('active');
+                        return;
+                    }
+        
+                    const filteredResults = searchHandlers.searchableContent.filter(item =>
+                        item.title.toLowerCase().includes(searchTerm)
+                    );
+        
+                    if (filteredResults.length > 0) {
+                        elements.searchResults.innerHTML = filteredResults
+                            .map(result => `
+                                <div class="search-result-item" data-section="${result.section}">
+                                    ${result.title}
+                                </div>
+                            `).join('');
+                        elements.searchResults.classList.add('active');
+        
+                        // Add click handlers to search results
+                        document.querySelectorAll('.search-result-item').forEach(item => {
+                            item.addEventListener('click', () => {
+                                const section = document.getElementById(item.dataset.section);
+                                if (section) {
+                                    section.scrollIntoView({ behavior: 'smooth' });
+                                    searchHandlers.closeSearch();
+                                }
+                            });
+                        });
+                    } else {
+                        elements.searchResults.classList.remove('active');
+                    }
+                },
+        
+                closeSearch: () => {
+                    elements.searchInput.value = '';
+                    elements.searchResults.classList.remove('active');
+                    elements.searchInput.classList.remove('active');
+                    elements.searchIcon.classList.remove('active');
+                }
+            };
+        
+            // Parallax Effect
+            const handleParallax = () => {
+                const scrolled = window.pageYOffset;
+                if (elements.teddyContainer) {
+                    elements.teddyContainer.style.transform = 
+                        `translate(-50%, -50%) translateZ(-5px) scale(1.5) translateY(${scrolled * 0.15}px)`;
+                }
+                navigationHandlers.updateActiveLinks();
+            };
+        
+            // Event Listeners
+            function initializeEventListeners() {
+                // Mobile menu toggle
+                elements.menuToggle?.addEventListener('click', navigationHandlers.toggleMobileMenu);
+        
+                // Navigation links (top and bottom)
+                elements.navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        // Allow default behavior for actual page navigation
+                        navigationHandlers.closeMobileMenu();
+                    });
+                });
+        
+                elements.bottomNavLinks.forEach(link => {
+                    link.addEventListener('click', (e) => navigationHandlers.handleNavClick(e, link));
+                });
+        
+                // Search functionality
+                elements.searchIcon?.addEventListener('click', searchHandlers.toggleSearch);
+                elements.searchInput?.addEventListener('input', searchHandlers.handleSearch);
+        
+                // Close menus when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
+                        navigationHandlers.closeMobileMenu();
+                    }
+                    if (!e.target.closest('.search-container')) {
+                        searchHandlers.closeSearch();
+                    }
+                });
+        
+                // Window events
+                window.addEventListener('scroll', handleParallax);
+                window.addEventListener('resize', () => {
+                    if (window.innerWidth > 768) {
+                        navigationHandlers.closeMobileMenu();
+                    }
+                });
+            }
+        
+            // Initialize
+            initializeEventListeners();
+            navigationHandlers.updateActiveLinks();
+        });
+
+        // Add this to your existing JavaScript
+document.addEventListener('DOMContentLoaded', () => {
+    const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+    
+    bottomNavItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            bottomNavItems.forEach(navItem => navItem.classList.remove('active'));
+            item.classList.add('active');
+        });
+    });
+
+    const topNavLinks = document.querySelectorAll('.nav-links a');
+    topNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Allow default navigation behavior
+            // Just update active states
+            topNavLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
+    // Bottom nav handling (internal links)
+    const bottomNavLinks = document.querySelectorAll('.bottom-nav-item');
+    bottomNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default for smooth scrolling
+            
+            // Remove active class from all bottom nav items
+            bottomNavLinks.forEach(l => l.classList.remove('active'));
+            
+            // Add active class to clicked item
+            link.classList.add('active');
+            
+            // Smooth scroll to section
+            const targetId = link.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+    });
+
+    // Update active bottom nav item on scroll
+    window.addEventListener('scroll', () => {
+        const scrollPosition = window.scrollY + window.innerHeight / 3;
+        
+        document.querySelectorAll('section, .main-container').forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                bottomNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const button = form.querySelector('button');
+    const originalText = button.textContent;
+    button.textContent = 'Subscribing...';
+    button.disabled = true;
+
+    fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form)
+    })
+    .then(() => {
+        const cartPopup = document.getElementById('cartPopup');
+        cartPopup.textContent = 'Successfully subscribed! 🎉';
+        cartPopup.classList.add('show');
+        setTimeout(() => cartPopup.classList.remove('show'), 3000);
+        form.reset();
+    })
+    .catch(() => {
+        const cartPopup = document.getElementById('cartPopup');
+        cartPopup.textContent = 'Subscription failed. Please try again.';
+        cartPopup.classList.add('show');
+    })
+    .finally(() => {
+        button.textContent = originalText;
+        button.disabled = false;
+    });
+});
+
+    </script>
+</body>
+
+</html>

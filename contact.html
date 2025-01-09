@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Soft Toy Paradise</title>
+    <link rel="icon" href="assets/logobanner.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE8E8;
+            font-family: 'Archivo', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styles */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 232, 232, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2.5rem;
+            z-index: 1001;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 50%;
+            background-color: #FFB84D;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Search Container Styles */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 40px;
+        }
+
+        .search-icon {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #333;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: transparent;
+        }
+
+        .search-icon::after {
+            content: '';
+            position: absolute;
+            width: 7px;
+            height: 1.5px;
+            background: #333;
+            bottom: -4px;
+            right: -4px;
+            transform: rotate(45deg);
+        }
+
+        .search-input {
+            position: absolute;
+            right: -10px;
+            padding: 8px 40px 8px 16px;
+            border: 1.5px solid #FFB84D;
+            border-radius: 20px;
+            font-size: 14px;
+            background: white;
+            width: 40px;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .search-input.active {
+            width: 200px;
+            opacity: 1;
+            padding-right: 35px;
+        }
+
+        /* Menu Toggle Styles */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Contact Section Styles */
+        .contact-section {
+            padding: 120px 0 60px;
+            background-color: #FFF5F5;
+            min-height: calc(100vh - 200px);
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .info-item:hover {
+            transform: translateX(10px);
+        }
+
+        .info-item i {
+            font-size: 1.2rem;
+            color: #FFB84D;
+            width: 24px;
+            margin-top: 4px;
+        }
+
+        .contact-form {
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 300;
+            transition: transform 0.3s ease;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #FFE8E8;
+            border-radius: 10px;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #FFFFFF;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #FFB84D;
+            box-shadow: 0 0 0 3px rgba(255, 184, 77, 0.1);
+        }
+
+        .submit-btn {
+            background: #FFB84D;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background: #FFA726;
+            transform: scale(1.02);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Map Container Styles */
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 400px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            grid-column: 1 / -1;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Bottom Navigation Styles */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            justify-content: space-around;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.52);
+            height: 56px;
+            z-index: 1000;
+            border-radius: 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0 10px;
+        }
+
+        .bottom-nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #666;
+            font-size: 10px;
+            width: 25%;
+            height: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-nav-item i {
+            font-size: 20px;
+            margin-bottom: 3px;
+            transition: all 0.2s ease;
+        }
+
+        .bottom-nav-item.active {
+            color: #fca5a9;
+        }
+
+        .bottom-nav-item.active i {
+            color: #fca5a9;
+            transform: scale(1.1);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul a:hover {
+            color: #FFB84D;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FFB84D;
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: flex !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(255, 232, 232, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 1001;
+                padding-top: 80px;
+                gap: 2rem;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .bottom-nav {
+                display: flex;
+            }
+
+            .contact-section {
+                padding-bottom: 100px;
+            }
+
+            footer {
+                padding-bottom: 84px;
+            }
+
+            .menu-toggle.active span:first-child {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:last-child {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="assets/logo.svg" alt="Soft Toy Paradise Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="gallery.html">GALLERY</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="contact.html" class="active">CONTACT</a></li>
+        </ul>
+        <div class="nav-right">
+            <div class="search-container">
+                <div class="search-icon"></div>
+                <input type="text" class="search-input" placeholder="Search...">
+                <div class="search-results"></div>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="bottom-nav">
+        <a href="#home" class="bottom-nav-item">
+            <i class="fa-solid fa-address-card"></i>
+            <span>Address</span>
+        </a>
+        <a href="#contact" class="bottom-nav-item">
+            <i class="fa-solid fa-address-book"></i>
+                        <span>Contact</span>
+        </a>
+        <a href="#map" class="bottom-nav-item">
+            <i class="fa-solid fa-location-arrow"></i>
+            <span>Location</span>
+        </a>
+        <!-- <a href="contact.html" class="bottom-nav-item active">
+            <i class="fas fa-message"></i>
+            <span>Contact</span>
+        </a> -->
+    </div>
+
+    <section id="home" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Get in Touch</h2>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="info-content">
+                        <h3>Visit Us</h3>
+                        <p>The Beezle<br>No. 19/A, 3rd Floor New Industrial Estate,<br>Near TVS Cross, 2nd Phase,<br>Peenya, Bengaluru, Karnataka 560058</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="info-content">
+                        <h3>Call Us</h3>
+                        <p>080739 20149</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="info-content">
+                        <h3>Email Us</h3>
+                        <p>info@beezleluxetoys.com</p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="info-content">
+                        <h3>Opening Hours</h3>
+                        <p>Monday - Saturday: 9am - 6pm<br>Sunday: Closed</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="contact" class="contact-form">
+                <h2>Send us a Message</h2>
+                <form action="https://formsubmit.co/info@beezleluxetoys.com" method="POST" id="contactForm" onsubmit="submitForm(event)">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Google Maps Section -->
+        <div id="map" class="contact-container">
+            <div class="map-container">
+                <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.3748770274095!2d77.51380597475824!3d13.0323174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae3df29eb07d07%3A0x15dc39b666e75024!2sThe%20Beezle!5e0!3m2!1sen!2sin!4v1704223165459!5m2!1sen!2sin"                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="gallery.html">Products</a></li>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/share/_y6IYI4S6" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Soft Toy Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const bottomNavItems = document.querySelectorAll('.bottom-nav-item');
+     
+            // Function to get element's distance from top of page
+            const getOffset = (element) => {
+                let distance = 0;
+                while(element) {
+                    distance += element.offsetTop;
+                    element = element.offsetParent;
+                }
+                return distance;
+            }
+     
+            // Function to update active nav item
+            const updateActiveNav = () => {
+                const scrollPosition = window.scrollY + (window.innerHeight / 2);
+                
+                const homeSection = document.getElementById('home');
+                const contactSection = document.getElementById('contact');
+                const mapSection = document.getElementById('map');
+     
+                const homeOffset = getOffset(homeSection);
+                const contactOffset = getOffset(contactSection);
+                const mapOffset = getOffset(mapSection);
+     
+                bottomNavItems.forEach(item => item.classList.remove('active'));
+     
+                if (scrollPosition >= mapOffset) {
+                    document.querySelector('a[href="#map"]').classList.add('active');
+                } else if (scrollPosition >= contactOffset) {
+                    document.querySelector('a[href="#contact"]').classList.add('active');
+                } else {
+                    document.querySelector('a[href="#home"]').classList.add('active');
+                }
+            }
+     
+            // Add scroll event listener
+            window.addEventListener('scroll', updateActiveNav);
+            // Initial check on page load
+            updateActiveNav();
+     
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            const searchIcon = document.querySelector('.search-icon');
+            
+            const resultsDiv = document.createElement('div');
+            resultsDiv.className = 'search-results';
+            resultsDiv.style.cssText = `
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 200px;
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                max-height: 300px;
+                overflow-y: auto;
+                display: none;
+                z-index: 1000;
+                margin-top: 8px;
+            `;
+            searchInput.parentElement.appendChild(resultsDiv);
+     
+            const searchableItems = [
+                { title: 'Home', url: 'index.html' },
+                { title: 'About', url: 'about.html' },
+                { title: 'Explore', url: 'explore.html' },
+                { title: 'Contact', url: 'contact.html' },
+                { title: 'Our Story', url: 'about.html' },
+                { title: 'Blog', url: 'blog.html' },
+                { title: 'address', url: '#home' },
+                { title: 'contact', url: '#contact' },
+                { title: 'Shipping & Returns', url: '#' }
+            ];
+     
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                resultsDiv.innerHTML = '';
+                
+                if (query.length > 0) {
+                    const matches = searchableItems.filter(item => 
+                        item.title.toLowerCase().includes(query)
+                    );
+                    
+                    if (matches.length > 0) {
+                        matches.forEach(match => {
+                            const div = document.createElement('div');
+                            div.style.cssText = `
+                                padding: 10px 15px;
+                                cursor: pointer;
+                                transition: background 0.3s;
+                            `;
+                            div.innerHTML = match.title;
+                            
+                            div.addEventListener('mouseover', () => {
+                                div.style.background = '#FFE8E8';
+                            });
+                            
+                            div.addEventListener('mouseout', () => {
+                                div.style.background = 'white';
+                            });
+                            
+                            div.addEventListener('click', () => {
+                                window.location.href = match.url;
+                                searchInput.value = '';
+                                resultsDiv.style.display = 'none';
+                            });
+                            
+                            resultsDiv.appendChild(div);
+                        });
+                        resultsDiv.style.display = 'block';
+                    } else {
+                        const div = document.createElement('div');
+                        div.style.padding = '10px 15px';
+                        div.innerHTML = 'No results found';
+                        resultsDiv.appendChild(div);
+                        resultsDiv.style.display = 'block';
+                    }
+                } else {
+                    resultsDiv.style.display = 'none';
+                }
+            });
+     
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    resultsDiv.style.display = 'none';
+                }
+            });
+     
+            // Navigation Toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+     
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+            });
+     
+            searchIcon.addEventListener('click', () => {
+                searchIcon.classList.toggle('active');
+                searchInput.classList.toggle('active');
+                if (searchInput.classList.contains('active')) {
+                    searchInput.focus();
+                }
+            });
+     
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-links') && !e.target.closest('.menu-toggle')) {
+                    menuToggle.classList.remove('active');
+                    navLinks.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+     
+            // Add smooth scrolling for bottom navigation
+            bottomNavItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = item.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if(targetElement) {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+     
+        function submitForm(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData);
+        
+            const submitBtn = event.target.querySelector('.submit-btn');
+            const originalContent = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+        
+            setTimeout(() => {
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Your message has been sent successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#FFB84D'
+                }).then(() => {
+                    event.target.reset();
+                    submitBtn.innerHTML = originalContent;
+                    submitBtn.disabled = false;
+                });
+            }, 1500);
+        
+            return false;
+        }
+
+        function submitForm(event) {
+            Swal.fire({
+                title: 'Success!',
+                text: 'Form submitted successfully!',
+                icon: 'success',
+                confirmButtonColor: '#FFB84D'
+            });
+        }
+     </script>
+   
+</body>
+</html>

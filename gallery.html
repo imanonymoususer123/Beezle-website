@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Soft Toy Paradise</title>
+    <link rel="icon" href="assets/logobanner.svg" type="image/svg+xml">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FFE8E8;
+            font-family: 'Archivo', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Navigation styles from original */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 232, 232, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 2.5rem;
+            z-index: 1001;
+        }
+
+        .logo img {
+            height: 60px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        /* Gallery specific styles */
+        .gallery-container {
+            padding: 120px 20px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .gallery-header h1 {
+            font-size: 3rem;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            border: 2px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Archivo', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            color: #333;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-btn.active {
+            background: #FFB84D;
+            color: white;
+            border-color: rgba(255, 184, 77, 0.3);
+            box-shadow: 0 5px 20px rgba(255, 184, 77, 0.3);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .gallery-grid.all {
+            grid-template-columns: repeat(12, 1fr);
+            grid-auto-rows: 300px;
+            grid-auto-flow: dense;
+        }
+
+        .gallery-grid.all .gallery-item:nth-child(6n+1) {
+            grid-column: span 6;
+            grid-row: span 2;
+        }
+
+        .gallery-grid.all .gallery-item:nth-child(8n+3) {
+            grid-column: span 4;
+            grid-row: span 1;
+        }
+
+        .gallery-grid.all .gallery-item:nth-child(5n+5) {
+            grid-column: span 3;
+            grid-row: span 1;
+        }
+
+        @media (max-width: 1200px) {
+            .gallery-grid.all {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid.all {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            cursor: pointer;
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 20px;
+            color: white;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-item-overlay {
+            opacity: 1;
+        }
+
+        .gallery-item-overlay h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            font-weight: 300;
+        }
+
+        .gallery-item-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        /* Lightbox styles */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .lightbox-nav button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-nav button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Mobile Navigation */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 24px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1001;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #333;
+            border-radius: 2px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Mobile styles */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+                background-color: rgba(255, 232, 232, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease-in-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .logo img {
+                height: 50px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .gallery-filters {
+                gap: 10px;
+            }
+
+            .filter-btn {
+                padding: 6px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 4rem 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section ul a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul a:hover {
+            color: #FFB84D;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #FFB84D;
+            transform: scale(1.1);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+         /* Add loader styles */
+         .loader {
+            display: none;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 5px solid #FFB84D;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Add load more button styles */
+        .load-more {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background: #FFB84D;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-family: 'Archivo', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .load-more:hover {
+            background: #ffa526;
+            transform: translateY(-2px);
+        }
+
+        .load-more:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #000;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            transition: all 0.3s ease;
+            padding-bottom: 5px;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: #FFB84D;
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .gallery-item img {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+        
+        .gallery-item img.loaded {
+            filter: blur(0);
+        }
+        
+        .gallery-item {
+            background: #f0f0f0;
+        }
+
+        .menu-toggle.active span:first-child {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:last-child {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <img src="assets/logo.svg" alt="Soft Toy Paradise Logo">
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="gallery.html" class="active">GALLERY</a></li>
+            <li><a href="blog.html">BLOG</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <button class="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div class="gallery-container">
+        <div class="gallery-header">
+            <h1>Our Gallery</h1>
+        </div>
+        
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="teddy">Teddy Bears</button>
+            <button class="filter-btn" data-filter="animals">Happy Moments</button>
+            <button class="filter-btn" data-filter="fantasy">Standard</button>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Gallery items will be dynamically loaded -->
+        </div>
+
+        <div class="loader"></div>
+        <button class="load-more">Load More</button>
+    </div>
+
+    <div class="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close">&times;</button>
+            <img src="" alt="" class="lightbox-image">
+            <div class="lightbox-nav">
+                <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Customer Care</h3>
+                    <ul>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="gallery.html">Products</a></li>
+                        <li><a href="index.html">Home</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Follow Us</h3>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/share/_y6IYI4S6" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <!-- <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Soft Toy Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            let galleryItems = [];
+            let filteredItems = [];
+            let currentImageIndex = 0;
+            let currentPage = 1;
+            const itemsPerPage = 16;
+         
+            const elements = {
+                galleryGrid: document.querySelector('.gallery-grid'),
+                filterButtons: document.querySelectorAll('.filter-btn'),
+                lightbox: document.querySelector('.lightbox'),
+                lightboxImage: document.querySelector('.lightbox-image'),
+                lightboxClose: document.querySelector('.lightbox-close'),
+                prevBtn: document.querySelector('.prev-btn'),
+                nextBtn: document.querySelector('.next-btn'),
+                loader: document.querySelector('.loader'),
+                loadMoreBtn: document.querySelector('.load-more')
+            };
+         
+            const jsonPaths = {
+                teddy: 'toys/animals.json',
+                animals: 'toys/Happy Moments.json',
+                fantasy: 'toys/Standard.json'
+            };
+         
+            const imageObserver = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const img = entry.target;
+                            img.src = img.dataset.src;
+                            img.onload = () => img.classList.add('loaded');
+                            imageObserver.unobserve(img);
+                        }
+                    });
+                },
+                { rootMargin: '50px 0px' }
+            );
+         
+            async function loadImagesFromJson(jsonPath, category) {
+                try {
+                    const response = await fetch(jsonPath);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    
+                    return data.map(item => ({
+                        source: item.url,
+                        title: item.name,
+                        category: category,
+                        description: `${category} collection`
+                    }));
+                } catch (error) {
+                    console.error(`Error loading images from ${jsonPath}:`, error);
+                    return [];
+                }
+            }
+         
+            async function initializeGallery() {
+                elements.loader.style.display = 'block';
+                let id = 1;
+                for (const [category, jsonPath] of Object.entries(jsonPaths)) {
+                    const items = await loadImagesFromJson(jsonPath, category);
+                    items.forEach(item => {
+                        galleryItems.push({ ...item, id: id++ });
+                    });
+                }
+                
+                filteredItems = galleryItems;
+                renderGallery(true);
+                elements.loader.style.display = 'none';
+            }
+         
+            function renderGallery(reset = false) {
+                if (reset) {
+                    currentPage = 1;
+                    elements.galleryGrid.innerHTML = '';
+                }
+         
+                if (filteredItems.length === 0) {
+                    elements.galleryGrid.innerHTML = '<p>No images found</p>';
+                    elements.loadMoreBtn.style.display = 'none';
+                    return;
+                }
+         
+                const startIndex = (currentPage - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const itemsToShow = filteredItems.slice(startIndex, endIndex);
+         
+                const galleryHTML = itemsToShow.map(item => `
+                    <div class="gallery-item" data-id="${item.id}">
+                        <img 
+                            data-src="${item.source}"
+                            alt="${item.title}"
+                            class="lazy"
+                            src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                        >
+                        <div class="gallery-item-overlay">
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+         
+                if (reset) {
+                    elements.galleryGrid.innerHTML = galleryHTML;
+                } else {
+                    elements.galleryGrid.insertAdjacentHTML('beforeend', galleryHTML);
+                }
+         
+                document.querySelectorAll('.lazy').forEach(img => imageObserver.observe(img));
+                elements.loadMoreBtn.style.display = endIndex >= filteredItems.length ? 'none' : 'block';
+                attachGalleryItemListeners();
+            }
+         
+            function attachGalleryItemListeners() {
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const id = parseInt(item.dataset.id);
+                        const index = filteredItems.findIndex(i => i.id === id);
+                        openLightbox(index);
+                    });
+                });
+            }
+         
+            function openLightbox(index) {
+                currentImageIndex = index;
+                updateLightboxImage();
+                elements.lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+         
+            function closeLightbox() {
+                elements.lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+         
+            function updateLightboxImage() {
+                const item = filteredItems[currentImageIndex];
+                if (item) {
+                    elements.lightboxImage.src = item.source;
+                    elements.lightboxImage.alt = item.title;
+                }
+                updateLightboxNavigation();
+            }
+         
+            function updateLightboxNavigation() {
+                elements.prevBtn.style.visibility = currentImageIndex <= 0 ? 'hidden' : 'visible';
+                elements.nextBtn.style.visibility = currentImageIndex >= filteredItems.length - 1 ? 'hidden' : 'visible';
+            }
+         
+            // Event Listeners
+            elements.loadMoreBtn.addEventListener('click', async () => {
+                elements.loader.style.display = 'block';
+                elements.loadMoreBtn.disabled = true;
+                await new Promise(resolve => setTimeout(resolve, 800));
+                currentPage++;
+                renderGallery(false);
+                elements.loader.style.display = 'none';
+                elements.loadMoreBtn.disabled = false;
+            });
+         
+            elements.filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const filter = button.dataset.filter;
+                    elements.filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    filteredItems = filter === 'all' ? galleryItems : 
+                        galleryItems.filter(item => item.category === filter);
+                    
+                    elements.galleryGrid.classList.toggle('all', filter === 'all');
+                    renderGallery(true);
+                });
+            });
+         
+            elements.lightboxClose?.addEventListener('click', closeLightbox);
+            elements.prevBtn?.addEventListener('click', () => {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateLightboxImage();
+                }
+            });
+            elements.nextBtn?.addEventListener('click', () => {
+                if (currentImageIndex < filteredItems.length - 1) {
+                    currentImageIndex++;
+                    updateLightboxImage();
+                }
+            });
+         
+            elements.lightbox?.addEventListener('click', (e) => {
+                if (e.target === elements.lightbox) closeLightbox();
+            });
+         
+            document.addEventListener('keydown', (e) => {
+                if (!elements.lightbox.classList.contains('active')) return;
+                switch(e.key) {
+                    case 'Escape': closeLightbox(); break;
+                    case 'ArrowLeft': if (currentImageIndex > 0) { currentImageIndex--; updateLightboxImage(); } break;
+                    case 'ArrowRight': if (currentImageIndex < filteredItems.length - 1) { currentImageIndex++; updateLightboxImage(); } break;
+                }
+            });
+         
+            initializeGallery().catch(error => {
+                console.error('Failed to initialize gallery:', error);
+                elements.galleryGrid.innerHTML = '<p>Failed to load gallery items</p>';
+                elements.loadMoreBtn.style.display = 'none';
+                elements.loader.style.display = 'none';
+            });
+         });
+
+
+         const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle?.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+    </script>
+</body>
+</html>
