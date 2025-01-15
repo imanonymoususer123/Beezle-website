@@ -1109,7 +1109,7 @@
         /* Add responsive adjustment for mobile */
         @media (max-width: 768px) {
             .logo img {
-                height: 50px;
+                height: 65px;
                 /* Slightly smaller on mobile */
             }
         }
@@ -1199,6 +1199,70 @@
         margin-bottom: calc(80px + env(safe-area-inset-bottom, 16px));
     }
 }
+
+.clients {
+    padding: 4rem 0;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+.clients-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.clients-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.clients-track {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.client-logo {
+    flex: 0 0 auto;
+    width: calc(16.666% - 2rem);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+.client-logo img {
+    max-width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.client-logo:hover img {
+    filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+    .clients-track {
+        animation: scroll 20s linear infinite;
+    }
+
+    .client-logo {
+        width: calc(33.333% - 2rem);
+    }
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-50% - 1rem));
+    }
+}
     </style>
 </head>
 
@@ -1271,19 +1335,19 @@
             <h2 class="section-heading">Our Collections</h2>
             <div class="category-grid">
                 <div class="category-card">
-                    <img src="assets/teddy2.webp" alt="Teddy Bears">
-                    <h3>Teddy Bears</h3>
-                    <p>Classic companions for all ages</p>
+                    <img src="assets/IMG_6128.jpg" alt="Teddy Bears">
+                    <h3 style="color: #4c0514;"> Huggable Teddy Bears</h3>
+                    <p style="color:#fb717b">Classic companions for all ages</p>
                 </div>
                 <div class="category-card">
-                    <img src="assets/animals 2.webp" alt="Wild Animals">
-                    <h3>Wild Animals</h3>
-                    <p>Safari and jungle friends</p>
+                    <img src="assets/IMG_6370.jpg" alt="Wild Animals">
+                    <h3 style="color: #4c0514;"> Pets and Animals</h3>
+                    <p style="color:#fb717b">Safari and jungle friends</p>
                 </div>
                 <div class="category-card">
-                    <img src="assets/horsh.png" alt="Fantasy">
-                    <h3>Fantasy</h3>
-                    <p>Magical creatures and unicorns</p>
+                    <img src="assets/IMG_6521.jpg" alt="Fantasy">
+                    <h3 style="color: #4c0514;">Customised Soft-Toys</h3>
+                    <p style="color:#fb717b">Magical creatures and unicorns</p>
                 </div>
             </div>
         </div>
@@ -1295,7 +1359,7 @@
             <div class="product-grid">
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/product1.webp" alt="Cozy Bear">
+                        <img src="assets/IMG_7134.jpg" alt="Cozy Bear">
                         <div class="product-overlay">
                             <button class="quick-view">Quick View</button>
                         </div>
@@ -1303,43 +1367,93 @@
                     <div class="product-info">
                         <h3>Cozy Bear</h3>
                         <!-- <p class="price">₹899</p> -->
-                        <button class="add-to-cart-btn">Add to Cart</button>
+                        <a href="gallery.html"><button class="add-to-cart-btn">View Products</button></a>
                     </div>
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/product2.webp" alt="Sleepy Panda">
+                        <img src="assets/IMG_6521.jpg" alt="Sleepy Panda">
                         <div class="product-overlay">
                             <button class="quick-view">Quick View</button>
                         </div>
                     </div>
                     <div class="product-info">
-                        <h3>Sleepy Panda</h3>
+                        <h3>Happy Star</h3>
                         <!-- <p class="price">₹1,299</p> -->
-                        <button class="add-to-cart-btn">Add to Cart</button>
+                        <a href="gallery.html"><button class="add-to-cart-btn">View Products</button></a>
                     </div>
                 </div>
                 <div class="product-card">
                     <div class="product-image">
-                        <img src="assets/product3.webp" alt="Magic Unicorn">
+                        <img src="assets/IMG_6508.jpg" alt="Magic Unicorn">
                         <div class="product-overlay">
                             <button class="quick-view">Quick View</button>
                         </div>
                     </div>
                     <div class="product-info">
-                        <h3>Magic Unicorn</h3>
+                        <h3>Cute Puppy</h3>
                         <!-- <p class="price">₹1,499</p> -->
-                        <button class="add-to-cart-btn">Add to Cart</button>
+                        <a href="gallery.html"><button class="add-to-cart-btn">View Products</button></a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Add this new section before the newsletter section -->
+<section class="clients">
+    <div class="clients-container">
+        <h2 class="section-heading">Our Clients</h2>
+        <div class="clients-wrapper">
+            <div class="clients-track">
+                <div class="client-logo">
+                    <img src="https://www.hcorealestates.com/_next/image?url=https%3A%2F%2Fwww.images.hcorealestates.com%2Fimg%2Fbanner%2Fanother-hit-by-sobha-ltd-to-build-up-project-in-gurgaon-at-rs-1000-crore_blog-main-banner.webp&w=3840&q=75" alt="Client 1">
+                </div>
+                <div class="client-logo">
+                    <img src="https://1000logos.net/wp-content/uploads/2020/10/Four-Seasons-Logo.jpg" alt="Client 2">
+                </div>
+                <div class="client-logo">
+                    <img src="https://www.hospitalitynet.org/picture/153050421/25hours.jpg?t=1633332704" alt="Client 3">
+                </div>
+                <div class="client-logo">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXKbJi9wsf_ue8M-JCM_NIQj-JOQmS6MAUrg&s" alt="Client 4">
+                </div>
+                <div class="client-logo">
+                    <img src="https://www.bengaluru.lulumall.in/wp-content/uploads/2023/07/LULU-LOGO.png" alt="Client 5">
+                </div>
+                <div class="client-logo">
+                    <img src="https://elitefoods.co.in/img/logo.png" alt="Client 6">
+                </div>
+                <!-- Duplicate for infinite scroll on mobile -->
+                <div class="client-logo">
+                    <img src="assets/client1.png" alt="Client 1">
+                </div>
+                <div class="client-logo">
+                    <img src="assets/client2.png" alt="Client 2">
+                </div>
+                <div class="client-logo">
+                    <img src="assets/client3.png" alt="Client 3">
+                </div>
+                <div class="client-logo">
+                    <img src="assets/client4.png" alt="Client 4">
+                </div>
+                <div class="client-logo">
+                    <img src="assets/client5.png" alt="Client 5">
+                </div>
+                <div class="client-logo">
+                    <img src="assets/client6.png" alt="Client 6">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
     <section id="contact" class="newsletter">
         <div class="newsletter-container">
             <h2>Join Our Cuddly Club</h2>
-            <p>Get 10% off your first order and stay updated with our latest arrivals!</p>
+            <p>Get exclusive offers, new product alerts, and special deals straight to your inbox!</p>
             <form class="newsletter-form" action="https://formsubmit.co/info@beezleluxetoys.com" method="POST">
                 <input type="email" name="email" placeholder="Enter your email" required>
                 <input type="hidden" name="_subject" value="New Newsletter Subscription!">
@@ -1748,6 +1862,25 @@ document.querySelector('.newsletter-form').addEventListener('submit', function(e
     });
 });
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const clientsTrack = document.querySelector('.clients-track');
+    
+    if (window.innerWidth <= 768) {
+        // Clone the track for smooth infinite scroll
+        clientsTrack.innerHTML += clientsTrack.innerHTML;
+    }
+});
+
+// Optional: Pause animation on hover
+const clientsWrapper = document.querySelector('.clients-wrapper');
+clientsWrapper.addEventListener('mouseenter', () => {
+    document.querySelector('.clients-track').style.animationPlayState = 'paused';
+});
+
+clientsWrapper.addEventListener('mouseleave', () => {
+    document.querySelector('.clients-track').style.animationPlayState = 'running';
+});
     </script>
 </body>
 
